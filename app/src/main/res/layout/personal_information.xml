@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="top"
@@ -16,13 +17,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Personal Information"
+        android:layout_below="@id/my_toolbar"
         style="@style/title"/>
 
     <LinearLayout
+        android:layout_centerVertical="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_weight="10"
         android:gravity="center"
         android:paddingTop="20dp"
         android:orientation="vertical">
@@ -54,14 +56,96 @@
 
         </ViewSwitcher>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ID"
+            style="@style/personal_info_list_title"/>
+
+        <ViewSwitcher
+            android:id="@+id/id_switcher"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/pi_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="16102290"
+                style="@style/personal_info_contents"
+                android:visibility="visible"/>
+
+            <EditText
+                android:id="@+id/pi_id_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"/>
+
+        </ViewSwitcher>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Phone"
+            style="@style/personal_info_list_title"/>
+
+        <ViewSwitcher
+            android:id="@+id/phone_switcher"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/pi_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="01024695531"
+                style="@style/personal_info_contents"
+                android:visibility="visible"/>
+
+            <EditText
+                android:id="@+id/pi_phone_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"/>
+
+        </ViewSwitcher>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            style="@style/personal_info_list_title"/>
+
+        <ViewSwitcher
+            android:id="@+id/email_switcher"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/pi_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="enfn2160@seoultech.ac.kr"
+                style="@style/personal_info_contents"
+                android:visibility="visible"/>
+
+            <EditText
+                android:id="@+id/pi_email_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"/>
+
+        </ViewSwitcher>
     </LinearLayout>
 
     <Button
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
         android:id="@+id/switching_button"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginBottom="50dp"
-        android:text="edit"
-        android:layout_gravity="center"/>
+        android:text="edit" />
 
-</LinearLayout>
+</RelativeLayout>

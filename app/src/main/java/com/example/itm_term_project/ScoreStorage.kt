@@ -8,22 +8,43 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.nambimobile.widgets.efab.ExpandableFab
 import com.nambimobile.widgets.efab.ExpandableFabLayout
 import com.nambimobile.widgets.efab.FabOption
 
 class ScoreStorage : AppCompatActivity() {
+
+    lateinit var slAdapter: ScoreListAdapter
+    val datas = mutableListOf<ScoreList>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.score_stroage)
 
+        //app bar
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
+        //score list adapter declaration
+        slAdapter = ScoreListAdapter(this)
+
+        //recycler view declaration
+        val slRecyclerView: RecyclerView = findViewById(R.id.sl_recycler)
+
+        //bind view with adapter
+        slRecyclerView.adapter = slAdapter
+
+        //floating action button declaration
         val fab: FabOption = findViewById(R.id.fab_menu_setting)
 
         fab.setOnClickListener(View.OnClickListener {
-            val hw: TextView = findViewById(R.id.hw)
-            hw.setText("fab clicked")
+//            val hw: TextView = findViewById(R.id.hw)
+//            hw.setText("fab clicked")
+            datas.apply{
+                add(ScoreList("title1"))
+                slAdapter.datas = datas
+                slAdapter.notifyDataSetChanged()
+            }
         })
 
 

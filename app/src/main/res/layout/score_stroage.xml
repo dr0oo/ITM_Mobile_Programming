@@ -21,6 +21,14 @@
         android:text="Score Storage"
         style="@style/title"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sl_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/scorelist_frag" />
+
     <TextView
         android:id="@+id/hw"
         android:layout_width="wrap_content"

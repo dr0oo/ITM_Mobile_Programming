@@ -38,8 +38,6 @@ class ScoreStorage : AppCompatActivity() {
         val fab: FabOption = findViewById(R.id.fab_menu_setting)
 
         fab.setOnClickListener(View.OnClickListener {
-//            val hw: TextView = findViewById(R.id.hw)
-//            hw.setText("fab clicked")
             datas.apply{
                 add(ScoreList("title1"))
                 slAdapter.datas = datas

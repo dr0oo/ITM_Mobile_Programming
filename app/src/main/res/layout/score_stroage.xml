@@ -1,40 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ScoreStorage"
-    android:orientation="vertical">
+    tools:context=".ScoreStorage">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:elevation="4dp"/>
+        android:elevation="4dp" />
 
     <TextView
+        android:id="@+id/ss"
+        style="@style/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Score Storage"
-        style="@style/title"/>
+        android:layout_below="@id/my_toolbar"
+        android:text="Score Storage" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/sl_recycler"
+    <ScrollView
+        android:layout_below="@id/ss"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/scorelist_frag" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/hw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:layout_gravity="center"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sl_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/scorelist_frag" />
+
+        </RelativeLayout>
+
+    </ScrollView>
 
     <com.nambimobile.widgets.efab.ExpandableFabLayout
         android:id="@+id/expandable_fab_layout"
@@ -44,8 +51,8 @@
         <com.nambimobile.widgets.efab.Overlay
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:overlay_alpha="0.75"
-            app:overlay_color="#000000"
+            app:overlay_alpha="1"
+            app:overlay_color="#5E5E5E"
             app:overlay_openingAnimationDurationMs="1000" />
 
         <com.nambimobile.widgets.efab.ExpandableFab
@@ -53,11 +60,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginBottom="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            app:efab_closingAnticipateTension="0"
             app:efab_color="#9374DE"
-            app:efab_iconAnimationRotationDeg="-225"
-            app:efab_closingAnticipateTension="0"/>
+            app:efab_iconAnimationRotationDeg="-225" />
 
         <com.nambimobile.widgets.efab.FabOption
             android:id="@+id/fab_menu_setting"
@@ -71,4 +78,4 @@
 
     </com.nambimobile.widgets.efab.ExpandableFabLayout>
 
-</LinearLayout>
+</RelativeLayout>

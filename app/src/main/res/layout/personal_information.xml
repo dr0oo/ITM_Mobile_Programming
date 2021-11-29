@@ -14,11 +14,11 @@
         android:elevation="4dp" />
 
     <TextView
+        style="@style/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Personal Information"
         android:layout_below="@id/my_toolbar"
-        style="@style/title"/>
+        android:text="Personal Information" />
 
     <LinearLayout
         android:layout_centerVertical="true"

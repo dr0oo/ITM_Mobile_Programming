@@ -1,7 +1,9 @@
 package com.example.itm_term_project
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -9,6 +11,12 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
 import com.nambimobile.widgets.efab.ExpandableFab
 import com.nambimobile.widgets.efab.ExpandableFabLayout
 import com.nambimobile.widgets.efab.FabOption
@@ -21,6 +29,9 @@ class ScoreStorage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.score_stroage)
+
+        var title_number = 0
+        var new_number = 0
 
         //app bar
         setSupportActionBar(findViewById(R.id.my_toolbar))
@@ -37,12 +48,59 @@ class ScoreStorage : AppCompatActivity() {
         //floating action button declaration
         val fab: FabOption = findViewById(R.id.fab_menu_setting)
 
-        fab.setOnClickListener(View.OnClickListener {
-            datas.apply{
-                add(ScoreList("title1"))
-                slAdapter.datas = datas
-                slAdapter.notifyDataSetChanged()
+        // database declaration
+        val database = Firebase.database
+        val myRef = database.getReference("ScoreList")
+
+        myRef.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val value:ArrayList<String> = snapshot.getValue() as ArrayList<String>
+                Log.d(TAG, "length value is: "+ value.size)
+                Log.d(TAG, "Value is: " + value.toString())
+
+                title_number = value.size-1
+                new_number = value.size
+
+                for( i in 1..(value.size-1) ){
+                    datas.apply{
+                        add(ScoreList(i, value.get(i) ))
+                        slAdapter.datas = datas
+                        slAdapter.notifyDataSetChanged()
+                    }
+                }
             }
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+
+        // Read from the database
+        myRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val value:ArrayList<String> = snapshot.getValue() as ArrayList<String>
+                Log.d(TAG, "length value is: "+ value.size)
+                Log.d(TAG, "Value is: " + value.toString())
+
+                title_number = value.size-1
+                new_number = value.size
+
+                datas.apply{
+                    add(ScoreList(new_number, "title"+"$new_number"))
+                    slAdapter.datas = datas
+                    slAdapter.notifyDataSetChanged()
+
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.w(TAG, "Failed to read value.", error.toException())
+            }
+
+        })
+
+        fab.setOnClickListener(View.OnClickListener {
+            myRef.child("$new_number").setValue("title"+"$new_number")
         })
 
 

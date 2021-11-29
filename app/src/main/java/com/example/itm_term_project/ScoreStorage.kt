@@ -5,7 +5,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.nambimobile.widgets.efab.ExpandableFab
+import com.nambimobile.widgets.efab.ExpandableFabLayout
+import com.nambimobile.widgets.efab.FabOption
 
 class ScoreStorage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,6 +18,14 @@ class ScoreStorage : AppCompatActivity() {
         setContentView(R.layout.score_stroage)
 
         setSupportActionBar(findViewById(R.id.my_toolbar))
+
+        val fab: FabOption = findViewById(R.id.fab_menu_setting)
+
+        fab.setOnClickListener(View.OnClickListener {
+            val hw: TextView = findViewById(R.id.hw)
+            hw.setText("fab clicked")
+        })
+
 
     }
 

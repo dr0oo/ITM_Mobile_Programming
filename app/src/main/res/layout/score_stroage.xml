@@ -22,9 +22,45 @@
         style="@style/title"/>
 
     <TextView
+        android:id="@+id/hw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
         android:layout_gravity="center"/>
+
+    <com.nambimobile.widgets.efab.ExpandableFabLayout
+        android:id="@+id/expandable_fab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.nambimobile.widgets.efab.Overlay
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:overlay_alpha="0.75"
+            app:overlay_color="#000000"
+            app:overlay_openingAnimationDurationMs="1000" />
+
+        <com.nambimobile.widgets.efab.ExpandableFab
+            android:id="@+id/expandable_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            app:efab_color="#9374DE"
+            app:efab_iconAnimationRotationDeg="-225"
+            app:efab_closingAnticipateTension="0"/>
+
+        <com.nambimobile.widgets.efab.FabOption
+            android:id="@+id/fab_menu_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_color="#FF8800"
+            app:fab_icon="@drawable/ic_launcher_foreground"
+            app:label_backgroundColor="#808080"
+            app:label_text="add score"
+            app:label_textColor="#FFC0CB" />
+
+    </com.nambimobile.widgets.efab.ExpandableFabLayout>
 
 </LinearLayout>

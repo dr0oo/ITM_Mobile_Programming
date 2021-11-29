@@ -32,6 +32,7 @@ class ScoreStorage : AppCompatActivity() {
 
         var title_number = 0
         var new_number = 0
+        var isFirst = true
 
         //app bar
         setSupportActionBar(findViewById(R.id.my_toolbar))
@@ -77,18 +78,20 @@ class ScoreStorage : AppCompatActivity() {
         // Read from the database
         myRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val value:ArrayList<String> = snapshot.getValue() as ArrayList<String>
-                Log.d(TAG, "length value is: "+ value.size)
-                Log.d(TAG, "Value is: " + value.toString())
+                if( isFirst == false ) {
+                    val value: ArrayList<String> = snapshot.getValue() as ArrayList<String>
+                    Log.d(TAG, "length value is: " + value.size)
+                    Log.d(TAG, "Value is: " + value.toString())
 
-                title_number = value.size-1
-                new_number = value.size
+                    title_number = value.size - 1
+                    new_number = value.size
 
-                datas.apply{
-                    add(ScoreList(new_number, "title"+"$new_number"))
-                    slAdapter.datas = datas
-                    slAdapter.notifyDataSetChanged()
+                    datas.apply {
+                        add(ScoreList(title_number, "title" + "$title_number"))
+                        slAdapter.datas = datas
+                        slAdapter.notifyDataSetChanged()
 
+                    }
                 }
 
             }
@@ -101,6 +104,7 @@ class ScoreStorage : AppCompatActivity() {
 
         fab.setOnClickListener(View.OnClickListener {
             myRef.child("$new_number").setValue("title"+"$new_number")
+            isFirst = false
         })
 
 

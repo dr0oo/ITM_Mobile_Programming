@@ -7,16 +7,19 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 
 class Score: AppCompatActivity()  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.score)
+        setContentView(R.layout.score)
+
+        val fl : FrameLayout = findViewById(R.id.score_page)
 
         val quarter_note = MyQuarterNote(this)
-        setContentView(quarter_note)
+        fl.addView(quarter_note)
 
     }
 
@@ -24,19 +27,49 @@ class Score: AppCompatActivity()  {
         var paint = Paint()
         var circleX: Float = 0f
         var circleY: Float = 0f
+        var lineX: Float = 0f
+        var lineY: Float = 0f
         var circleRadius = 15f
 
         override fun onDraw(canvas: Canvas){
             paint.setColor(Color.BLACK)
+            paint.setStrokeWidth(8f)
 
-//            setBackgroundColor(Color.YELLOW)
             setBackgroundResource(R.drawable.score_background_test)
 
+            circleX = 120f
+            circleY = 200f
 
-            circleX = 80f
-            circleY = 80f
             canvas.drawCircle(circleX, circleY, circleRadius, paint)
+            if(checkLine(circleY).equals("left")){
+                leftLine(canvas, circleX, circleY)
+            }else{
+                rightLine(canvas, circleX, circleY)
+            }
+        }
 
+        //선을 왼쪽에 그릴건지 오른쪽에 그릴건지 리턴해줌
+        //나중에 이거는 음표 클래스에 옮겨도 될듯
+        fun checkLine(y: Float): String{
+            var where=""
+            when(y){
+                in 0f..155f -> where = "left"
+                in 156f..410f -> where = "right"
+                else -> where="I don't know"
+            }
+            return where
+        }
+
+        fun rightLine(canvas: Canvas, circleX: Float, circleY: Float){
+            lineX = circleX+15f
+            lineY = circleY
+            canvas.drawLine(lineX, lineY, lineX, lineY-90, paint)
+        }
+
+        fun leftLine(canvas: Canvas, circleX: Float, circleY: Float){
+            lineX = circleX-15f
+            lineY = circleY
+            canvas.drawLine(lineX, lineY, lineX, lineY+90, paint)
         }
     }
 }

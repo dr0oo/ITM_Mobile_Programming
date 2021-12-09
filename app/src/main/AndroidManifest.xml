@@ -15,7 +15,6 @@
 
         </activity>
         <activity android:name=".PersonalInformation" />
-        <activity android:name=".Score_Fail_with_FrameLayout"/>
         <activity android:name=".Score"
             android:exported="true"
             tools:ignore="Instantiatable">
@@ -27,4 +26,5 @@
         </activity>
     </application>
 
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 </manifest>

@@ -1,24 +1,18 @@
 package com.example.itm_term_project
 
-import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.drawable.Drawable
-import android.icu.text.AlphabeticIndex
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatImageButton
-import java.io.IOException
 
 class Score: AppCompatActivity()  {
 
@@ -36,11 +30,14 @@ class Score: AppCompatActivity()  {
 
     private var state = State.BEFORE_RECORDING
 
+    //녹음된 소리 플레이하기
     private var player: MediaPlayer? = null
 
+    //오디오 녹음 잘 되었는지 확인하기 위해 캐시에 저장해서 플레이 했었음
     private val recordingFilePath: String by lazy{
         "${externalCacheDir?.absolutePath}/recording.3gp"
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +54,7 @@ class Score: AppCompatActivity()  {
         val recording_button: ImageButton = findViewById(R.id.recording_button)
         recording_button.setImageResource(R.drawable.ic_baseline_fiber_manual_record_24   )
 
-        recording_button.setOnClickListener({
+        recording_button.setOnClickListener {
             when(state){
                 State.BEFORE_RECORDING ->{
                     recording_button.setImageResource(R.drawable.ic_baseline_stop_24)
@@ -68,9 +65,10 @@ class Score: AppCompatActivity()  {
                     recording_button.setAndShowEnabled(false)
                 }
             }
-        })
+        }
 
-
+        //녹음 잘되었는지 확인하는 버튼
+        //실제로는 필요 없음
         val play: Button = findViewById(R.id.recording_test)
         play.setOnClickListener({
             startPlaying()
@@ -124,6 +122,7 @@ class Score: AppCompatActivity()  {
     }
 
     private fun startRecording(){
+
         Log.d("recording","started")
         recorder = MediaRecorder().apply{
             setAudioSource(MediaRecorder.AudioSource.MIC)
@@ -132,21 +131,25 @@ class Score: AppCompatActivity()  {
             setOutputFile(recordingFilePath)//저장경로 나중에 바꾸기
             prepare()
         }
+
         recorder?.start()
+
 //        recordTimeTextView.startCountup()
 //        soundVisualizerView.startVisualizing(false)
         state = State.ON_RECORDING
 //        https://whyprogrammer.tistory.com/584
     }
 
-    private fun stopRecording(){
+    fun stopRecording(){
+        val recording_button: ImageButton = findViewById(R.id.recording_button)
+        recording_button.setAndShowEnabled(false)
         recorder?.run{
             stop()
             reset()
             release()
         }
         recorder = null
-//        suondVisualizerView.stopVisualizing()
+//        soundVisualizerView.stopVisualizing()
 //        recordTimeTextView.stopCountup()
         state = State.AFTER_RECORDING
 
@@ -155,6 +158,7 @@ class Score: AppCompatActivity()  {
 
 
     private fun startPlaying() {
+
         // MediaPlayer
         player = MediaPlayer()
             .apply {
@@ -187,4 +191,5 @@ class Score: AppCompatActivity()  {
 
         state = State.AFTER_RECORDING
     }
+
 }

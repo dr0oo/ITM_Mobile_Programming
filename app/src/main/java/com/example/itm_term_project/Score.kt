@@ -11,7 +11,6 @@ import android.util.Log
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class Score: AppCompatActivity()  {
@@ -47,9 +46,27 @@ class Score: AppCompatActivity()  {
         requestAudioPermission()
 
         val fl : FrameLayout = findViewById(R.id.score_page)
+        //악보 배경 설정
+        val background = ScoreBackground(this)
+        fl.addView(background)
 
-        val quarter_note = MyQuarterNote(this)
-        fl.addView(quarter_note)
+        val quarter_note_1 = MyNote(this,1,5,"quarter")
+        fl.addView(quarter_note_1)
+        val quarter_note_2 = MyNote(this,2,5,"quarter")
+        fl.addView(quarter_note_2)
+        val quarter_note_3 = MyNote(this,3,5,"quarter")
+        fl.addView(quarter_note_3)
+        val quarter_note_4 = MyNote(this,4,5,"quarter")
+        fl.addView(quarter_note_4)
+        val quarter_note_5 = MyNote(this,5,5,"quarter")
+        fl.addView(quarter_note_5)
+        val quarter_note_6 = MyNote(this,6,5,"quarter")
+        fl.addView(quarter_note_6)
+        val quarter_note_7 = MyNote(this,7,5,"quarter")
+        fl.addView(quarter_note_7)
+        val quarter_note_8 = MyNote(this,8,5,"quarter")
+        fl.addView(quarter_note_8)
+
 
         val recording_button: ImageButton = findViewById(R.id.recording_button)
         recording_button.setImageResource(R.drawable.ic_baseline_fiber_manual_record_24   )
@@ -174,7 +191,6 @@ class Score: AppCompatActivity()  {
             stopPlaying()
             state = State.AFTER_RECORDING
         }
-
 //        //재생
 //        player?.start()
 //        recordTimeTextView.startCountup()

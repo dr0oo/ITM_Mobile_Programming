@@ -11,10 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".ScoreStorage">
-
-        </activity>
+        <activity android:name=".ScoreStorage"/>
         <activity android:name=".PersonalInformation" />
         <activity android:name=".Score"
             android:exported="true"
@@ -27,5 +24,4 @@
         </activity>
     </application>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 </manifest>

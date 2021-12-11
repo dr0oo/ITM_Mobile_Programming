@@ -5,10 +5,12 @@ import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.icu.text.AlphabeticIndex
+import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Bundle
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
@@ -16,6 +18,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
+import java.io.IOException
 
 class Score: AppCompatActivity()  {
 
@@ -34,6 +37,10 @@ class Score: AppCompatActivity()  {
     private var state = State.BEFORE_RECORDING
 
     private var player: MediaPlayer? = null
+
+    private val recordingFilePath: String by lazy{
+        "${externalCacheDir?.absolutePath}/recording.3gp"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,13 +64,16 @@ class Score: AppCompatActivity()  {
                     startRecording()
                 }
                 State.ON_RECORDING->{
-                    recording_button.setImageResource(R.drawable.ic_baseline_stop_24)
                     stopRecording()
-                }
-                State.AFTER_RECORDING ->{
                     recording_button.setAndShowEnabled(false)
                 }
             }
+        })
+
+
+        val play: Button = findViewById(R.id.recording_test)
+        play.setOnClickListener({
+            startPlaying()
         })
 
     }
@@ -114,11 +124,11 @@ class Score: AppCompatActivity()  {
     }
 
     private fun startRecording(){
-        Toast.makeText(this, "recording start", Toast.LENGTH_SHORT).show()
+        Log.d("recording","started")
         recorder = MediaRecorder().apply{
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+            setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
             setOutputFile(recordingFilePath)//저장경로 나중에 바꾸기
             prepare()
         }
@@ -129,19 +139,18 @@ class Score: AppCompatActivity()  {
 //        https://whyprogrammer.tistory.com/584
     }
 
-    private val recordingFilePath: String by lazy{
-        "${externalCacheDir?.absolutePath}/recording.3gp"
-    }
-
     private fun stopRecording(){
         recorder?.run{
             stop()
+            reset()
             release()
         }
         recorder = null
 //        suondVisualizerView.stopVisualizing()
 //        recordTimeTextView.stopCountup()
         state = State.AFTER_RECORDING
+
+        Log.d("recording","stopped")
     }
 
 
@@ -150,7 +159,10 @@ class Score: AppCompatActivity()  {
         player = MediaPlayer()
             .apply {
                 setDataSource(recordingFilePath)
-                prepare() // 재생 할 수 있는 상태 (큰 파일 또는 네트워크로 가져올 때는 prepareAsync() )
+                setAudioAttributes(AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).setUsage(AudioAttributes.USAGE_MEDIA).build())
+                prepare() // may take a while depending on the media, consider using .prepareAsync() for streaming
+
+                start()
             }
 
         // 전부 재생 했을 때
@@ -159,7 +171,8 @@ class Score: AppCompatActivity()  {
             state = State.AFTER_RECORDING
         }
 
-        player?.start() // 재생
+//        //재생
+//        player?.start()
 //        recordTimeTextView.startCountup()
 //        soundVisualizerView.startVisualizing(true)
 

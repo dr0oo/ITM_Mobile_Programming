@@ -37,6 +37,8 @@ class Score: AppCompatActivity()  {
         "${externalCacheDir?.absolutePath}/recording.3gp"
     }
 
+    var mythread = MyThread()
+//    var met: Metronome = Metronome()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,9 +77,17 @@ class Score: AppCompatActivity()  {
             when(state){
                 State.BEFORE_RECORDING ->{
                     recording_button.setImageResource(R.drawable.ic_baseline_stop_24)
-                    startRecording()
+                    Thread(Runnable {
+                        for(i in 1..4 step(1)) {
+                            //1초간 sleep (대기) 설정
+                            println("${i} : Thread")
+                            Thread.sleep(600)
+                        }
+                        startRecording()
+                    }).start()
                 }
                 State.ON_RECORDING->{
+                    Log.d("test","on_recording")
                     stopRecording()
                     recording_button.setAndShowEnabled(false)
                 }
@@ -148,18 +158,22 @@ class Score: AppCompatActivity()  {
             setOutputFile(recordingFilePath)//저장경로 나중에 바꾸기
             prepare()
         }
-
+        mythread.start()
+//        met.metronome()
         recorder?.start()
 
 //        recordTimeTextView.startCountup()
 //        soundVisualizerView.startVisualizing(false)
         state = State.ON_RECORDING
+        Log.d("test","state is $state")
 //        https://whyprogrammer.tistory.com/584
     }
 
     fun stopRecording(){
         val recording_button: ImageButton = findViewById(R.id.recording_button)
         recording_button.setAndShowEnabled(false)
+//        mythread.stop()
+        mythread.stopThread()
         recorder?.run{
             stop()
             reset()

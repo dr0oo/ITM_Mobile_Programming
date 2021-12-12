@@ -51,6 +51,7 @@ class MyNote(cont: Context, noteNum: Int, key: Int, note: String): View(cont) {
         when(checkLine(circleY)){
             "left" -> leftTail(canvas, circleX, circleY)
             "right" -> rightTail(canvas, circleX, circleY)
+
         }
     }
 
